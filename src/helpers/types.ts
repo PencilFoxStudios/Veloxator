@@ -42,3 +42,27 @@ export const PNFXBotError = {
 }
 
 export type PNFXBotErrorCode = (keyof typeof PNFXBotError)
+
+export interface VELOX_SUBSCRIPTION {
+  SUBSCRIPTION_ID: string | null,
+  CHANNEL_ID: string,
+  GUILD_ID: string,
+  GUILD_OWNER_ID: string,
+  TAXON_LATIN_NAME: string | null,
+  TAXON_NAME: string | null,
+  TAXON_ID: string,
+  LAST_CHECK: Date | null,
+  NEXT_CHECK: Date | null,
+  ENABLED: Boolean | null,
+  UP_TO_DATE: Boolean | null
+}
+export interface VELOX_RECENT_OBSERVATIONS_PARAMETERS{
+    created_d1: string | null,
+    count: number | null  ,
+    taxon_id: string | null  ,
+    callback: Function
+}
+export interface VELOX_AUTOCOMPLETE_PARAMETERS{
+    query: string,
+    callback: Function
+}
