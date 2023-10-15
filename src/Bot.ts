@@ -2,11 +2,10 @@ import { Client, IntentsBitField } from "discord.js";
 import { EraserTailClient } from "@pencilfoxstudios/erasertail"
 import ready from "./listeners/ready";
 import interactionCreate from "./listeners/interactionCreate";
-import { API, Types } from "inaturalits";
-const iNaturalist = new API.iNatClient()
-iNaturalist.Observations.Get(187447390).then(function (observationData:Types.Observations.ObservationsShowResponse){
-  console.log(observationData)
-})
+import { iNatClient, Types } from "inaturalits";
+require('dotenv').config()
+const iNaturalist = new iNatClient(true)
+
 
 
 const EraserTail = new EraserTailClient({
@@ -39,6 +38,7 @@ const client = new Client({
   intents: [IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMembers, IntentsBitField.Flags.GuildBans]
 });
 ready(client, EraserTail);
-interactionCreate(client, EraserTail);
+interactionCreate(client, EraserTail, iNaturalist);
+
 
 client.login(process.env.DISCORD_BOT_TOKEN);

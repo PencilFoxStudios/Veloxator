@@ -4,7 +4,8 @@ import PNFXMenu from "../../helpers/Menu";
 import PNFXMember from "../../helpers/Member";
 import * as PNFXEmbeds from "../../helpers/Embeds"
 import * as PNFXHelpers from "../../helpers/functions"
-export default async function handleSelectMenu(client: Client, EraserTail: EraserTailClient, interaction: SelectMenuInteraction, pnfxMember: PNFXMember): Promise<void> {
+import { iNatClient } from "inaturalits";
+export default async function handleSelectMenu(client: Client, EraserTail: EraserTailClient, interaction: SelectMenuInteraction, pnfxMember: PNFXMember, iNaturalist:iNatClient): Promise<void> {
     const selectedValues = interaction.values; // Contains a list of values that were selected as part of the select menu.
     const behavior = interaction.customId // Contains a custom ID that refers to the command ran.
     const originalMessage = interaction.message

@@ -2,7 +2,6 @@ import { EraserTailClient } from "@pencilfoxstudios/erasertail";
 import { Guild, GuildMember, User } from "discord.js"
 import * as PNFXHelpers from "./functions";
 import { PNFXMemberPermissionString, PNFXStaffRole } from "./types";
-import { ExampleDatabase as PNFXdb } from "../helpers/notion"
 /**
 * Custom handler for action permissions, based on the member and the guild the action was requested on.
 *     @org Pencil Fox Studios
@@ -67,45 +66,6 @@ export default class PNFXMember {
         }
 
         return this.__permissions.includes(perm)
-    }
-    async history(uuid: string): Promise<any> {
-        if (!(await this.hasPermission("VIEW_HISTORY"))) return null;
-        const db = new PNFXdb(this.__EraserTail)
-        let userHistory = await db.users.get({ ID: uuid })
-        return userHistory
-    }
-    notes(member: GuildMember) {
-        return {
-            add: async (note: string): Promise<boolean> => {
-                if (!(await this.hasPermission("ADD_NOTES"))) return false;
-                return true
-            },
-            get: async (): Promise<boolean> => {
-                if (!(await this.hasPermission("GET_NOTES"))) return false;
-                return true
-            },
-        }
-    }
-    async warn(member: GuildMember, reason: string = "No reason specified."): Promise<boolean> {
-        if (!(await this.hasPermission("WARN"))) return false;
-        return true
-    }
-    async kick(member: GuildMember, reason: string = "No reason specified."): Promise<boolean> {
-        if (!(await this.hasPermission("KICK"))) return false;
-        let kicked = await member.kick(`This action was done on behalf of ${this.__user.tag}` + (reason == "No reason specified." ? "." : `: "${reason}"`)).catch((err) => {
-            this.__EraserTail.log("Warn", err)
-            return false
-        })
-        if (!kicked) return false
-        return true
-    }
-    async timeout(member: GuildMember, reason: string = "No reason specified."): Promise<boolean> {
-        if (!(await this.hasPermission("TIMEOUT"))) return false;
-        return true
-    }
-    async untimeout(member: GuildMember, reason: string = "No reason specified."): Promise<boolean> {
-        if (!(await this.hasPermission("UNTIMEOUT"))) return false;
-        return true
     }
     async ban(member: GuildMember, reason: string = "No reason specified."): Promise<boolean> {
         if (!(await this.hasPermission("BAN"))) return false;

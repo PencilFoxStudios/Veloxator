@@ -4,7 +4,8 @@ import PNFXMenu from "../../helpers/Menu";
 import PNFXMember from "../../helpers/Member";
 import * as PNFXEmbeds from "../../helpers/Embeds"
 import { Commands } from "../../Commands";
-export default async function handleChatInputMessageContextOrUserContextCommand(client: Client, EraserTail: EraserTailClient, interaction: CommandInteraction, pnfxMember: PNFXMember): Promise<void> {
+import { iNatClient } from "inaturalits";
+export default async function handleChatInputMessageContextOrUserContextCommand(client: Client, EraserTail: EraserTailClient, interaction: CommandInteraction, pnfxMember: PNFXMember, iNaturalist:iNatClient): Promise<void> {
     const command = Commands.find(c => {
         return c.info().name === interaction.commandName
     });
@@ -15,5 +16,5 @@ export default async function handleChatInputMessageContextOrUserContextCommand(
         });
         return;
     }
-    command.run(client, interaction, EraserTail);
+    command.run(client, interaction, EraserTail, iNaturalist);
 }

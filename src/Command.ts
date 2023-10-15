@@ -1,6 +1,7 @@
 import { EraserTailClient } from "@pencilfoxstudios/erasertail";
 import { CommandInteraction, Client, SlashCommandBuilder, ContextMenuCommandBuilder, ApplicationCommandType } from "discord.js";
 import * as PNFXTypes from './helpers/types'
+import { iNatClient } from "inaturalits";
 export class PNFXCommand {
     readonly name: string;
     readonly description: string;
@@ -37,23 +38,23 @@ export class PNFXCommand {
             description: this.description
         }
     }
-    async run(client: Client, interaction: CommandInteraction, EraserTail: EraserTailClient) {
+    async run(client: Client, interaction: CommandInteraction, EraserTail: EraserTailClient, iNaturalist:iNatClient) {
         await interaction.deferReply({ ephemeral: this.secret })
         switch (interaction.commandType) { // Check the command's type.
             case ApplicationCommandType.ChatInput:
                 // Command is a slash command!
                 if (!this.__RunSlashCommand) return EraserTail.log("Error", `${this.name} command cannot be ran in a slash command!`)
-                await this.__RunSlashCommand(client, interaction, EraserTail)
+                await this.__RunSlashCommand(client, interaction, EraserTail, iNaturalist)
                 break
             case ApplicationCommandType.User:
                 // Command is a user context command!
                 if (!this.__RunUserContextCommand) return EraserTail.log("Error", `${this.name} command cannot be ran in a user context menu!`)
-                await this.__RunUserContextCommand(client, interaction, EraserTail)
+                await this.__RunUserContextCommand(client, interaction, EraserTail, iNaturalist)
                 break
             case ApplicationCommandType.Message:
                 // Command is a message context command!
                 if (!this.__RunMessageContextCommand) return EraserTail.log("Error", `${this.name} command cannot be ran in a message context menu!`)
-                await this.__RunMessageContextCommand(client, interaction, EraserTail)
+                await this.__RunMessageContextCommand(client, interaction, EraserTail, iNaturalist)
                 break
         }
     }

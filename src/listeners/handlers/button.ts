@@ -4,7 +4,8 @@ import PNFXMenu from "../../helpers/Menu";
 import PNFXMember from "../../helpers/Member";
 import * as PNFXEmbeds from "../../helpers/Embeds"
 import * as PNFXHelpers from "../../helpers/functions"
-export default async function handleButton(client: Client, EraserTail: EraserTailClient, interaction: ButtonInteraction, pnfxMember: PNFXMember): Promise<void> {
+import { iNatClient } from "inaturalits";
+export default async function handleButton(client: Client, EraserTail: EraserTailClient, interaction: ButtonInteraction, pnfxMember: PNFXMember, iNaturalist:iNatClient): Promise<void> {
     const behavior = interaction.customId // Contains a custom ID that refers to the command ran.
     const originalMessage = interaction.message
     const GUILD = interaction.guild as Guild
@@ -28,37 +29,6 @@ export default async function handleButton(client: Client, EraserTail: EraserTai
             const reasonRow = new ActionRowBuilder<TextInputBuilder>().addComponents(reasonInput);
             modal.addComponents(reasonRow);
             interaction.showModal(modal)
-            break;
-        case "mod_confirm_kick_user":
-            // Confirm action
-            const UUID = originalMessage.content.replace("> ", "");
-            const MEMBER: GuildMember | null = await PNFXHelpers.getUserInServer(UUID, GUILD, EraserTail)
-            const menu = await PNFXHelpers.validateMenu(interaction, UUID, MEMBER, EraserTail)
-            if (!MEMBER) {
-                menu.editEmbed(3, (embed: EmbedBuilder) => {
-                    return PNFXEmbeds.error("GENERAL_COMMAND_ERROR")
-                        .setFooter({ text: "Use the select menu below to try another action, or click the button below to hide this mod menu." })
-                })
-                await interaction.update(menu.toMessageObject());
-                return
-            }
-            const act = await pnfxMember.kick(MEMBER);
-            if (!act) {
-                menu.editEmbed(3, (embed: EmbedBuilder) => {
-                    return PNFXEmbeds.error("GENERAL_COMMAND_ERROR")
-                        .setFooter({ text: "Use the select menu below to try another action, or click the button below to hide this mod menu." })
-                })
-                await interaction.update(menu.toMessageObject());
-                return
-            } else {
-                menu.editEmbed(3, (embed: EmbedBuilder) => {
-                    return PNFXEmbeds.success("User has been kicked!")
-                        .setFooter({ text: "Use the select menu below to try another action, or click the button below to hide this mod menu." })
-                })
-                menu.deleteAllButtons()
-                menu.addButton("Dismiss", "dismiss_message", ButtonStyle.Secondary)
-                await interaction.update(menu.toMessageObject());
-            }
             break;
         default:
             await interaction.update({

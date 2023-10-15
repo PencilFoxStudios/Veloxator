@@ -11,7 +11,8 @@ import handleChatInputMessageContextOrUserContextCommand from "./handlers/chatin
 import handleAutocomplete from "./handlers/autocomplete"
 import handleModal from "./handlers/modal"
 import handleSelectMenu from "./handlers/selectMenu"
-export default (client: Client, EraserTail: EraserTailClient): void => {
+import { iNatClient } from "inaturalits";
+export default (client: Client, EraserTail: EraserTailClient, iNaturalist:iNatClient): void => {
     client.on("interactionCreate", async (interaction: Interaction) => {
         // Delete below if the bot support DMs.
         if (!interaction.guild) {
@@ -19,19 +20,19 @@ export default (client: Client, EraserTail: EraserTailClient): void => {
         }
         const PNFX_MEMBER = new PNFXMember(interaction.user, interaction.guild, EraserTail)
         if (interaction.isChatInputCommand() || interaction.isMessageContextMenuCommand() || interaction.isUserContextMenuCommand()) {
-            await handleChatInputMessageContextOrUserContextCommand(client, EraserTail, interaction, PNFX_MEMBER);
+            await handleChatInputMessageContextOrUserContextCommand(client, EraserTail, interaction, PNFX_MEMBER, iNaturalist);
         }
         if (interaction.isAutocomplete()) {
-            await handleAutocomplete(client, EraserTail, interaction, PNFX_MEMBER);
+            await handleAutocomplete(client, EraserTail, interaction, PNFX_MEMBER, iNaturalist);
         }
         if (interaction.isButton()) {
-            await handleButton(client, EraserTail, interaction, PNFX_MEMBER)
+            await handleButton(client, EraserTail, interaction, PNFX_MEMBER, iNaturalist)
         }
         if (interaction.isModalSubmit()) {
-            await handleModal(client, EraserTail, interaction, PNFX_MEMBER)
+            await handleModal(client, EraserTail, interaction, PNFX_MEMBER, iNaturalist)
         }
         if (interaction.isSelectMenu()) {
-            await handleSelectMenu(client, EraserTail, interaction, PNFX_MEMBER)
+            await handleSelectMenu(client, EraserTail, interaction, PNFX_MEMBER, iNaturalist)
         }
     });
 };

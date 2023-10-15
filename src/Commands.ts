@@ -1,8 +1,7 @@
 import { PNFXCommand } from "./Command";
 // Import Commands
-import { Mod } from "./commands/mod";
-import { Openmodel } from "./commands/openmodel";
 import { Ping } from "./commands/ping";
+import { Random } from "./commands/random";
 
 const Commands: PNFXCommand[] = []; 
 
@@ -16,12 +15,7 @@ const Commands: PNFXCommand[] = [];
             }
 
             if(true){ 
-                Commands.push(new Openmodel())
+                Commands.push(new Random())
             }
-
-            if(true){ 
-                Commands.push(new Mod())
-            }
-
 
 export {Commands};

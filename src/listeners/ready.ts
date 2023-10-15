@@ -24,13 +24,14 @@ export default (client: Client, EraserTail: EraserTailClient): void => {
         await client.application.commands.set(ShippedCommands);
         client.user.setPresence({
             status: "idle",
-            activities: [
+            activities:[
                 {
-                    name: "my tail",
+                    name: "for Foxes!",
+                    url: "https://www.inaturalist.org/taxa/42054-Vulpes/browse_photos?order_by=observed_on&term_id=17&term_value_id=18",
                     type: 3,
                 }
             ],
-
+        
         })
         EraserTail.log("Info", `${client.user.username} is online`);
     });

@@ -1,7 +1,8 @@
 import { ColorResolvable, EmbedBuilder, EmbedField, User } from 'discord.js'
 import moment from 'moment'
 import * as PNFXTypes from "./types"
-
+import { Types } from "inaturalits"
+import { EraserTailClient } from '@pencilfoxstudios/erasertail'
 export function error(code: PNFXTypes.PNFXBotErrorCode = "UNK"): EmbedBuilder {
     const embed = new EmbedBuilder()
         .setColor(0xda4453)
@@ -35,6 +36,26 @@ export function user(user: User | null, customText = user?.tag ?? "Unknown User"
         .setAuthor({
             iconURL: user?.avatarURL() ?? undefined,
             name: customText
+        })
+    return embed
+}
+export function veloxSighting(observationInfo:Types.Observations.ShowObservation) {
+    if(observationInfo.description == ''){
+        observationInfo.description = undefined;
+    }
+    const embed = new EmbedBuilder()
+        .setColor(0xf76e10)
+        .setAuthor({
+            iconURL: observationInfo.user?.icon_url,
+            name: observationInfo.user?.login || "Anonymous",
+            url: observationInfo.user?.login?`https://www.inaturalist.org/people/${observationInfo.user?.login}`:undefined
+        })
+        .setDescription((observationInfo.description??`*${observationInfo.taxon?`${observationInfo.taxon?.name}`:"Something"}* was previously spotted in ${observationInfo.place_guess} <t:${moment(observationInfo.observed_on_string).unix()}:R>!`) + `\n[**View Observation**](${observationInfo.uri})`)
+        .setImage(observationInfo.photos![0].url!.replace("square", "original"))
+        .setTimestamp(moment(observationInfo.observed_on).toDate())
+        .setThumbnail("attachment://map.png")
+        .setFooter({
+            text: "Powered by iNaturalist.org"
         })
     return embed
 }

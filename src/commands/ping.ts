@@ -4,6 +4,7 @@ import { PNFXCommandSupportString } from "src/helpers/types";
 import { PNFXCommand } from "../Command";
 import * as PNFXEmbeds from "../helpers/Embeds"
 import PNFXMenu from "../helpers/Menu"
+import { iNatClient } from "inaturalits";
 export class Ping extends PNFXCommand {
     constructor() {
         super(
@@ -17,7 +18,7 @@ export class Ping extends PNFXCommand {
             false
         );
     }
-    __RunSlashCommand: Function = async (client: Client, interaction: CommandInteraction, EraserTail: EraserTailClient) => {
+    __RunSlashCommand: Function = async (client: Client, interaction: CommandInteraction, EraserTail: EraserTailClient, iNatClient:iNatClient) => {
         await interaction.editReply(
             {
                 embeds: [PNFXEmbeds.user(interaction.user), PNFXEmbeds.success("Pong!")]
